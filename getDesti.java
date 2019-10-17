@@ -32,7 +32,7 @@ public class getDesti
 
         // sd.getAngle();
 
-        q.add(new point(rs.getInt("x"), rs.getInt("y"), rs.getInt("al"), rs.getInt("ah"), rs.getInt("el"), rs.getInt("eh")));
+        q.add(new point(rs.getFloat("x"), rs.getFloat("y"), rs.getInt("al"), rs.getInt("ah"), rs.getFloat("el"), rs.getFloat("eh")));
 
         // System.out.println(q.size());
         // System.out.println( "ID = " + this.id );

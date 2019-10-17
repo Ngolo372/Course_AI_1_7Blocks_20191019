@@ -24,6 +24,8 @@ public class MainView extends JFrame {
     state stateofThisView;
 
     JButton AutoStartBtn;
+
+    MyPanel westPanel;
     
     public MainView(state s) throws IOException {
 
@@ -117,7 +119,7 @@ public class MainView extends JFrame {
         southPanel.add(BlockLabel);
 
         // panel west
-        MyPanel westPanel = new MyPanel();
+        westPanel = new MyPanel();
         //westPanel = new JPanel();
         westPanel.setVisible(true);
         westPanel.setState(this.stateofThisView);

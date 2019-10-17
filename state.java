@@ -60,14 +60,18 @@ public class state {
     }
 
     public state(state s){
-        this.q = s.q;
+        this.q = new ArrayList<point>();
+        //this.q = s.q;
+        for (int i = 0; i < s.q.size(); i++) {
+            q.add(new point(s.q.get(i).x, s.q.get(i).y, s.q.get(i).al, s.q.get(i).ah, s.q.get(i).el, s.q.get(i).eh));
+        }
         this.stateBlock = s.stateBlock;
         this.blocks = s.blocks;
         this.statesingleblock_up = new Vector<Integer>(7);
         this.statesingleblock_down = new Vector<Integer>(7);
         for (int i = 0; i < 7; i++) {
-            this.statesingleblock_up.add(new Integer(0));
-            this.statesingleblock_down.add(new Integer(0));
+            this.statesingleblock_up.add(new Integer(s.statesingleblock_up.get(i)));
+            this.statesingleblock_down.add(new Integer(s.statesingleblock_down.get(i)));
         }
     }
 
