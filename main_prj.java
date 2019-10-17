@@ -25,6 +25,8 @@ import javafx.event.ActionEvent;
 
 import javax.imageio.ImageIO;
 
+import java.util.Timer;
+
 public class main_prj {
 
 	public static void main(String[] args) throws IOException {
@@ -38,6 +40,13 @@ public class main_prj {
 
 		MainView mainView = new MainView(mainstate);
 
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+	    public void run() {
+	       mainView.westPanel.repaint();
+	    }
+		}, 2000, 2000);
+		
 		mainView.AutoStartBtn.addActionListener(new ActionListener(){
 
 			@Override
@@ -53,12 +62,6 @@ public class main_prj {
 			}
         });
 			
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-	    public void run() {
-	       mainView.westPanel.repaint();
-	    }
-	    }, 2000, 2000);
 		
 		mainView.setSize(1024, 768);
 		mainView.setResizable(false);

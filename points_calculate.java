@@ -311,38 +311,22 @@ public class points_calculate {
 
     boolean pointsdeal() {
 
-        // for (int iph = 0; iph < states.size(); iph++) {
-        // System.out.println("本次优化前插入第" + (iph + 1) + "个搜索状态" + ",点数" +
-        // states.get(iph).q.size());
-        // System.out.println("优化之前还有几个点？" + q.size());
-        // for (int jph = 0; jph < q.size(); jph++) {
-        // System.out.println( "x,y,al,ah,angle,el,eh = " + q.get(jph).x + "," +
-        // q.get(jph).y + "," + q.get(jph).al + "," + q.get(jph).ah + "," +
-        // q.get(jph).angle + "," + q.get(jph).el + "," + q.get(jph).eh);
-        // }
-        // }
+        // boolean best = false;
 
         System.out.println("点优化");
         if (q.size() < 3) {
             return true;
         }
 
-        // point predp = q.get(q.size() - 1);
-        // point thisp = q.get(0);
-        // point succp = q.get(1);
-
         for (int i = 0; i < q.size(); i++) {
             int thisangle = q.get(i).angle;
             float thisel = q.get(i).el;
             float thiseh = q.get(i).eh;
 
-            // System.out.println("index = " + i + "this angle = " + thisangle);
-
             if (thisangle == 0) {
+                // best = true;
                 if (thisel < thiseh) {
-                    // succp.el = thisp.eh - thisp.el;
-                    // q.set((i + 1) % q.size(), new point(succp));
-                    // predp.eh = thisp.eh - thisp.el;
+                    
                     q.get((i + 1) % q.size()).el = thiseh - thisel;
                     q.get((i - 1 + q.size()) % q.size()).eh = thiseh - thisel;
                     q.get((i - 1 + q.size()) % q.size()).setAngle(q.get((i - 1 + q.size()) % q.size()).al, q.get(i).ah);
@@ -369,10 +353,7 @@ public class points_calculate {
                 if (q.size() < 3)
                     return true;
             } else if (thisangle == 180) {
-                // predp.eh = thisp.el + thisp.eh;
-                // succp.el = thisp.el + thisp.eh;
-                // q.set(i - 1, new point(predp));
-                // q.set((i + 1) % q.size(), succp);
+                // best = true;
                 q.get((i - 1 + q.size()) % q.size()).eh = thiseh + thisel;
                 q.get((i + 1) % q.size()).el = thiseh + thisel;
                 q.remove(i);
@@ -380,30 +361,9 @@ public class points_calculate {
                 if (q.size() < 3)
                     return true;
             }
-            // else{
-            // predp = thisp;
-            // }
-            // thisp = succp;
-            // succp = q.get((i + 1) % q.size());
         }
 
-        // System.out.println("还有几个点？" + q.size());
-        // for (int i = 0; i < q.size(); i++) {
-        // System.out.println( "x,y,al,ah,el,eh = " + q.get(i).x + "," + q.get(i).y +
-        // "," + q.get(i).al + "," + q.get(i).ah + "," + q.get(i).el + "," +
-        // q.get(i).eh);
-        // }
-        // for (int iph = 0; iph < states.size(); iph++) {
-        // System.out.println("本次优化后插入第" + (iph + 1) + "个搜索状态" + ",点数" +
-        // states.get(iph).q.size());
-        // System.out.println("优化之后还有几个点？" + q.size());
-        // for (int jph = 0; jph < q.size(); jph++) {
-        // System.out.println( "x,y,al,ah,angle,el,eh = " + q.get(jph).x + "," +
-        // q.get(jph).y + "," + q.get(jph).al + "," + q.get(jph).ah + "," +
-        // q.get(jph).angle + "," + q.get(jph).el + "," + q.get(jph).eh);
-        // }
-        // }
-
+        // if(!best)return pointsdeal();
         return false;
     }
 
@@ -449,6 +409,8 @@ public class points_calculate {
 
                         try {
                             presentstate = (state) states.peek().clone();
+                            
+                            success = pointsdeal();
                             success = pointsdeal();
 
                             presentstate.q = this.q;
@@ -527,12 +489,6 @@ public class points_calculate {
                             // System.out.println("这个状态是" + states.peek().blocks.size() + "个板");
                             // System.out.println("这个状态是" + states.peek().q.size() + "还是" +
                             // presentstate.q.size() + "个点");
-
-                            // for (int iph = 0; iph < states.size(); iph++) {
-                            // System.out.println("pop之后0000000000000000000000000000000插入第" + (iph + 1) +
-                            // "个搜索状态" + ",点数" + states.get(iph).q.size());
-
-                            // }
                         } else {
                             System.out.println("finish a search");
                             return true;

@@ -19,7 +19,7 @@ public class getDesti
       c = DriverManager.getConnection("jdbc:sqlite:test.db");
       stmt = c.createStatement();
 
-      ResultSet rs = stmt.executeQuery( "SELECT * FROM lib1_19;" );
+      ResultSet rs = stmt.executeQuery( "SELECT * FROM lib1_24;" );
 
       while ( rs.next() ) {
         // this.id = rs.getInt("ID");
