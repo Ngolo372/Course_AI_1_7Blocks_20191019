@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class state {
+public class state  implements Cloneable{
     List<point> q;
 
     Stack<singleBlock> blocks;
@@ -90,4 +90,9 @@ public class state {
     void statesingleblock_down_ban(int iob, int iobp){
         statesingleblock_down.set(iob, (statesingleblock_down.get(iob) | (1 << iobp)));
     }
+
+    public Object clone() throws CloneNotSupportedException {  
+        return super.clone();  
+    }  
+
 }

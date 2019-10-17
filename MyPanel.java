@@ -32,7 +32,7 @@ class MyPanel extends JPanel	//我自己的面板，用于绘图和实现绘图�
 		// System.out.println("剩几个点" + stateofThisPanel.q.size());
 
 		for (int i = 0; i < stateofThisPanel.q.size(); i++) {
-			p.addPoint((int)(100 + 20 * stateofThisPanel.q.get(i).x), (int)(100 + 20 * stateofThisPanel.q.get(i).y));
+			p.addPoint((int)(100 + 10 * stateofThisPanel.q.get(i).x), (int)(100 + 10 * stateofThisPanel.q.get(i).y));
 		}
 
 		// System.out.println("更新画布");
@@ -55,7 +55,7 @@ class MyPanel extends JPanel	//我自己的面板，用于绘图和实现绘图�
 
 			for (int j = 0; j < stateofThisPanel.blocks.get(i).blockpoints.size(); j++) {
 				// System.out.println("x,y=" + (int)(20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).x) + "," + (int)(20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).y));
-				pp.addPoint((int)(100 + 20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).x), (int)(100 + 20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).y));
+				pp.addPoint((int)(100 + 10 * stateofThisPanel.blocks.get(i).blockpoints.get(j).x), (int)(100 + 10 * stateofThisPanel.blocks.get(i).blockpoints.get(j).y));
 			}
 			
 			//待拼图形

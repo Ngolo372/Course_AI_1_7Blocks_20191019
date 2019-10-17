@@ -1,6 +1,6 @@
 //describe the destinition pointnode
 
-public class point {
+public class point implements Cloneable{
     public float x, y, el, eh;
     public int al, ah, angle;
     public point(){
@@ -38,6 +38,10 @@ public class point {
         this.eh = p.eh;
         this.angle = (this.al <= this.ah) ? (this.ah - this.al) : (this.ah - this.al + 360); 
     }
+
+    public Object clone() throws CloneNotSupportedException {  
+        return super.clone();  
+    }  
 
     public void getAngle(){
         this.angle = (this.al <= this.ah) ? (this.ah - this.al) : (this.ah - this.al + 360); 
