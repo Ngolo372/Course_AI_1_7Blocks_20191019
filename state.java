@@ -1,10 +1,11 @@
+//state类：状态，包括目前剩下的待拼图案和放入了哪些板
+
 import java.util.*;
 
 public class state  implements Cloneable{
     List<point> q;
 
     Stack<singleBlock> blocks;
-    //List<singleBlock> blocks;
 
     int stateBlock;
     Vector<Integer> statesingleblock_up;

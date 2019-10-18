@@ -1,5 +1,5 @@
+//singleBlock 类：一块板
 import java.util.*;
-
 import java.awt.Color;
 
 public class singleBlock {

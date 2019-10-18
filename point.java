@@ -1,5 +1,5 @@
-//describe the destinition pointnode
 
+//point类：角点
 public class point implements Cloneable{
     public float x, y, el, eh;
     public int al, ah, angle;
@@ -37,6 +37,16 @@ public class point implements Cloneable{
         this.el = p.el;
         this.eh = p.eh;
         this.angle = (this.al <= this.ah) ? (this.ah - this.al) : (this.ah - this.al + 360); 
+    }
+
+    public point(float x, float y){
+        this.x = x;
+        this.y = y;
+        this.al = -1;
+        this.ah = -1;
+        this.el = -1;
+        this.eh = -1;
+        this.angle = 0;
     }
 
     public Object clone() throws CloneNotSupportedException {  

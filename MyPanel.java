@@ -2,13 +2,12 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
+//MyPanel类：更新画布
 class MyPanel extends JPanel	//我自己的面板，用于绘图和实现绘图区域
 {
 	boolean paintflag = false;
 	state stateofThisPanel;
 	java.util.List<point> lp;
-	
-	//java.util.List <singleBlock> sb;
 	Stack<singleBlock> sb;
 
 	void setState(state s){
@@ -17,10 +16,10 @@ class MyPanel extends JPanel	//我自己的面板，用于绘图和实现绘图�
 		paintflag = true;
 	}
 	
+	//更新画布
 	public void paint(Graphics g)
 	{
 		super.paint(g);		//继承父类
-		// System.out.println("更新画布");
 		if(paintflag)
 		{	
 
@@ -29,7 +28,7 @@ class MyPanel extends JPanel	//我自己的面板，用于绘图和实现绘图�
 			Polygon p = new Polygon();
 
 			for (int i = 0; i < stateofThisPanel.q.size(); i++) {
-				p.addPoint((int)(100 + 20 * stateofThisPanel.q.get(i).x), (int)(650 - 20 * stateofThisPanel.q.get(i).y));
+				p.addPoint((int)(100 + 20 * stateofThisPanel.q.get(i).x), (int)(800 - 20 * stateofThisPanel.q.get(i).y));
 			}
 
 			setBackground(Color.white);		
@@ -41,10 +40,10 @@ class MyPanel extends JPanel	//我自己的面板，用于绘图和实现绘图�
 			for (int i = 0; i < this.stateofThisPanel.blocks.size(); i++) {
 				Polygon pp = new Polygon();
 				for (int j = 0; j < stateofThisPanel.blocks.get(i).blockpoints.size(); j++) {
-					pp.addPoint((int)(100 + 20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).x), (int)(650 - 20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).y));
+					pp.addPoint((int)(100 + 20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).x), (int)(800 - 20 * stateofThisPanel.blocks.get(i).blockpoints.get(j).y));
 				}
 				
-				//待拼图形
+				//巧板
 				g.setColor(stateofThisPanel.blocks.get(i).c);
 				g.fillPolygon(pp);
 			}

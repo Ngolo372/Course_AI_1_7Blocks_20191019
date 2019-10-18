@@ -1,15 +1,22 @@
 import java.util.*;
-
 import javax.swing.JOptionPane;
 
+//points_calculate ：搜索拼图
 public class points_calculate {
 
+    //拼在图上的板
     Stack<singleBlock> blocks;
+
+    //初始点集
     List<point> desq = new ArrayList<point>();
+
+    //运算中点集
     List<point> q = new ArrayList<point>();
 
+    //DFS open表中的state
     Stack<state> states = new Stack<state>();
 
+    //是否步进  0：步进  1：一次成型（进影响显示效果，不影响搜索过程）
     boolean ifc;
 
     public points_calculate(List<point> d, Stack<singleBlock> b) {
@@ -26,10 +33,7 @@ public class points_calculate {
         states.push(new state(desq));
     }
 
-    public void setBlockType(int type) {
-
-    }
-
+    //判断两线段是否相交
     boolean get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x,
             float p3_y) {
 
@@ -62,6 +66,7 @@ public class points_calculate {
         return true;
     }
 
+    //判断某块板是否放入待拼图案
     boolean Edgefit(List<point> points, int type, int index, int iobp, int highangle, Boolean ud) {
         boolean flag = true;
         List<point> q = points;
@@ -91,28 +96,29 @@ public class points_calculate {
             pd = q.get(i);
             pdn = q.get((i + 1) % sizeofDesti);
 
+            //遍历顶点，柔化边界
             for (int j = 0; j < sizeofBlock; j++) {
                 flag = flag && (!get_line_intersection(block.blockpoints.get(j).x, block.blockpoints.get(j).y,
                         block.blockpoints.get((j + 1) % sizeofBlock).x, block.blockpoints.get((j + 1) % sizeofBlock).y,
-                        (float) (pd.x + 0.1 * (float) Math
+                        (float) (pd.x + 0.2 * (float) Math
                                 .cos((0.5 * ((pd.al < pd.ah ? pd.al : (pd.al - 360)) + pd.ah) + 180) * Math.PI / 180)),
-                        (float) (pd.y + 0.1 * (float) Math
+                        (float) (pd.y + 0.2 * (float) Math
                                 .sin((0.5 * ((pd.al < pd.ah ? pd.al : (pd.al - 360)) + pd.ah) + 180) * Math.PI / 180)),
-                        (float) (pdn.x + 0.1 * (float) Math.cos(
+                        (float) (pdn.x + 0.2 * (float) Math.cos(
                                 (0.5 * ((pdn.al < pdn.ah ? pdn.al : (pdn.al - 360)) + pdn.ah) + 180) * Math.PI / 180)),
-                        (float) (pdn.y + 0.1
+                        (float) (pdn.y + 0.2
                                 * (float) Math.sin((0.5 * ((pdn.al < pdn.ah ? pdn.al : (pdn.al - 360)) + pdn.ah) + 180)
                                         * Math.PI / 180))));
 
                 flag = flag && (!get_line_intersection(block.blockpoints.get(j).x, block.blockpoints.get(j).y,
                         block.blockpoints.get((j + 2) % sizeofBlock).x, block.blockpoints.get((j + 2) % sizeofBlock).y,
-                        (float) (pd.x + 0.1 * (float) Math
+                        (float) (pd.x + 0.2 * (float) Math
                                 .cos((0.5 * ((pd.al < pd.ah ? pd.al : (pd.al - 360)) + pd.ah) + 180) * Math.PI / 180)),
-                        (float) (pd.y + 0.1 * (float) Math
+                        (float) (pd.y + 0.2 * (float) Math
                                 .sin((0.5 * ((pd.al < pd.ah ? pd.al : (pd.al - 360)) + pd.ah) + 180) * Math.PI / 180)),
-                        (float) (pdn.x + 0.1 * (float) Math.cos(
+                        (float) (pdn.x + 0.2 * (float) Math.cos(
                                 (0.5 * ((pdn.al < pdn.ah ? pdn.al : (pdn.al - 360)) + pdn.ah) + 180) * Math.PI / 180)),
-                        (float) (pdn.y + 0.1
+                        (float) (pdn.y + 0.2
                                 * (float) Math.sin((0.5 * ((pdn.al < pdn.ah ? pdn.al : (pdn.al - 360)) + pdn.ah) + 180)
                                         * Math.PI / 180))));
 
@@ -123,7 +129,8 @@ public class points_calculate {
         return flag;
     }
 
-    boolean addblock7(/* List<point> q, */int iob, int iobp, int highangle, Boolean ud) {
+    //放板：把iob号的iobp顶点贴住目标点，高位边对齐，ud控制正反面
+    boolean addblock7(int iob, int iobp, int highangle, Boolean ud) {
         boolean success = false;
 
         int desindex = q.size() - 1; // the index being operated
@@ -141,9 +148,9 @@ public class points_calculate {
 
         int lowangle = (highangle - thisblockangle + 360) % 360;
 
-        boolean anglefit = (thisblockangle <= desPoint.angle)
-                && (highangle - thisblockangle >= ((desPoint.al < desPoint.ah) ? desPoint.al : desPoint.al - 360))
-                && (highangle <= desPoint.ah);
+        boolean anglefit = (thisblockangle <= desPoint.angle + 3)
+                && (highangle - thisblockangle >= ((desPoint.al < desPoint.ah) ? desPoint.al : desPoint.al - 360) - 2)
+                && (highangle <= desPoint.ah + 2);
         boolean edgefit = Edgefit(q, 7, iob, iobp, highangle, ud);
 
         if (anglefit && edgefit) {
@@ -171,7 +178,7 @@ public class points_calculate {
 
             q.remove(desindex);
 
-            if ((lowangle == desPoint.al)) {
+            if ((lowangle - desPoint.al > -2) && (lowangle - desPoint.al < 2)) {
                 point ql = new point(lastPoint);
                 if (desPoint.el - thisblockpoint.el > 0.2f) {
                     ql.eh = desPoint.el - thisblockpoint.el;
@@ -259,6 +266,7 @@ public class points_calculate {
         return success;
     }
 
+    //点处理：消去目标图像中的共线点
     boolean pointsdeal() {
 
         if (q.size() < 3) {
@@ -271,20 +279,20 @@ public class points_calculate {
             float thiseh = q.get(i).eh;
 
             if (thisangle == 0) {
-                if (thisel < thiseh) {
+                if (thisel - thiseh < -0.12) {
                     
                     q.get((i + 1) % q.size()).el = thiseh - thisel;
                     q.get((i - 1 + q.size()) % q.size()).eh = thiseh - thisel;
                     q.get((i - 1 + q.size()) % q.size()).setAngle(q.get((i - 1 + q.size()) % q.size()).al, q.get(i).ah);
                 }
-                if (thisel > thiseh) {
+                if (thisel - thiseh > 0.12) {
                     q.get((i - 1 + q.size()) % q.size()).eh = thisel - thiseh;
                     q.get((i + 1) % q.size()).el = thisel - thiseh;
                     q.get((i + 1) % q.size()).setAngle(q.get(i).al, q.get((i + 1) % q.size()).ah);
                 }
                 q.remove(i);
 
-                if (thisel == thiseh) {
+                if (thisel - thiseh >= -0.12 && thisel - thiseh <= 0.12) {
                     q.get((i - 1 + q.size()) % q.size()).eh = q.get((i) % q.size()).eh;
                     q.get((i - 1 + q.size()) % q.size()).setAngle(q.get((i - 1 + q.size()) % q.size()).al,
                             q.get((i) % q.size()).ah);
@@ -305,6 +313,7 @@ public class points_calculate {
         return false;
     }
 
+    //深度优先搜索
     boolean search(Boolean c) {
         this.ifc = c;
         boolean success = false;
