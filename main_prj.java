@@ -19,46 +19,67 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import javafx.event.ActionEvent;
 
 import javax.imageio.ImageIO;
 
-import java.util.Timer;
-
 public class main_prj {
 
 	public static void main(String[] args) throws IOException {
 		// Single mode
 
-		getDesti des1 = new getDesti(0);
-		List<point> points = des1.q;
-		Stack<singleBlock> Blocks = new Stack<singleBlock>();
+		MainView mainView = new MainView();
 
-		state mainstate = new state(points, Blocks);
-
-		MainView mainView = new MainView(mainstate);
+		Vector<getDesti> des = new Vector<getDesti>();
+		for (int i = 0; i < 26; i++) {
+			des.add(new getDesti(String.valueOf(i + 1)));
+		}
 
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-	    public void run() {
-	       mainView.westPanel.repaint();
-	    }
-		}, 2000, 2000);
-		
-		mainView.AutoStartBtn.addActionListener(new ActionListener(){
+			public void run() {
+				mainView.westPanel.repaint();
+			}
+		}, 100, 500);
+
+		mainView.AutoStartBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				// TODO Auto-generated method stub
+				mainView.AutoStartBtn.setEnabled(false);
+
+				List<point> points = des.get(mainView.getIndex()).q;
+
+				Stack<singleBlock> Blocks = new Stack<singleBlock>();
+
+				state mainstate = new state(points, Blocks);
+
+				mainView.setState(mainstate);
+
+				JOptionPane.showMessageDialog(null, "Image No." + mainView.getIndex(), null,JOptionPane.PLAIN_MESSAGE);
+
+				mainView.westPanel.revalidate();
+
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				// mainView.AutoStartBtn.setEnabled(true);
 				points_calculate points_calculate_7 = new points_calculate(points, Blocks);
 
-				// for (int i = 0; i < points_calculate_7.q.size(); i++) {
-				// 	System.out.println( "x,y = " + points_calculate_7.q.get(i).x + "," + points_calculate_7.q.get(i).y);
-				// }
+				boolean success_flag = points_calculate_7.search();
 
-				points_calculate_7.search();
+				JOptionPane.showMessageDialog(null, (success_flag == true ? "Success!" : "No solution"), null,JOptionPane.PLAIN_MESSAGE);
+
+				mainView.AutoStartBtn.setEnabled(true);
+
 			}
         });
 			

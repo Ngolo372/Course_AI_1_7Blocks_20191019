@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,15 +22,17 @@ import javax.imageio.ImageIO;
 
 public class MainView extends JFrame {
 
-    state stateofThisView;
+    state stateofThisView = new state();
 
     JButton AutoStartBtn;
 
+    JButton selectBtn;
+
+    JComboBox RoundBox;
+
     MyPanel westPanel;
     
-    public MainView(state s) throws IOException {
-
-        this.stateofThisView = s;
+    public MainView() throws IOException {
 
 		this.setTitle("巧板");
 		this.setSize(600, 600);
@@ -41,22 +44,29 @@ public class MainView extends JFrame {
 		JLabel TypeLabel = new JLabel("巧板类型选择:");
         JComboBox TypeComboBox = new JComboBox();
         TypeComboBox.addItem("7");
-        TypeComboBox.addItem("13");
-        TypeComboBox.addItem("14");
-        TypeComboBox.addItem("15");
-        TypeComboBox.addItem("16");
+        // TypeComboBox.addItem("13");
+        // TypeComboBox.addItem("14");
+        // TypeComboBox.addItem("15");
+        // TypeComboBox.addItem("16");
 		panelType.setLayout(new GridLayout(1, 2));
 		panelType.add(TypeLabel);
 		panelType.add(TypeComboBox);
 
 		// round
 		JPanel panelRound = new JPanel();
-		panelRound.setLayout(new GridLayout(1, 2));
+		panelRound.setLayout(new GridLayout(1, 3));
 		JLabel RoundLabel = new JLabel("选择关卡：");;
-        JComboBox RoundBox = new JComboBox();
-        RoundBox.addItem("1");
+        RoundBox = new JComboBox();
+        RoundBox.addItem("1");RoundBox.addItem("2");RoundBox.addItem("3");RoundBox.addItem("4");RoundBox.addItem("5");
+        RoundBox.addItem("6");RoundBox.addItem("7");RoundBox.addItem("8");RoundBox.addItem("9");RoundBox.addItem("10");
+        RoundBox.addItem("11");RoundBox.addItem("12");RoundBox.addItem("13");RoundBox.addItem("14");RoundBox.addItem("15");
+        RoundBox.addItem("16");RoundBox.addItem("17");RoundBox.addItem("18");RoundBox.addItem("19");RoundBox.addItem("20");
+        RoundBox.addItem("21");RoundBox.addItem("22");RoundBox.addItem("23");RoundBox.addItem("24");RoundBox.addItem("25");
+        RoundBox.addItem("26");
+        selectBtn = new JButton("选定");
 		panelRound.add(RoundLabel);
-		panelRound.add(RoundBox);
+        panelRound.add(RoundBox);
+        // panelRound.add(selectBtn);
 
 		// choose type and round
 		JPanel panelbasicselect = new JPanel();
@@ -68,6 +78,7 @@ public class MainView extends JFrame {
 		JPanel panelAuto = new JPanel();
 		panelAuto.setLayout(new BoxLayout(panelAuto, BoxLayout.Y_AXIS));
         AutoStartBtn = new JButton("开始");
+        // AutoStartBtn.setEnabled(false);
         JLabel AutoTimeLabel = new JLabel("选择步长");
         JComboBox AutoTimeCombo = new JComboBox();
         AutoTimeCombo.addItem("1");
@@ -122,7 +133,7 @@ public class MainView extends JFrame {
         westPanel = new MyPanel();
         //westPanel = new JPanel();
         westPanel.setVisible(true);
-        westPanel.setState(this.stateofThisView);
+        // westPanel.setState(this.stateofThisView);
         // Image srcImage = ImageIO.read(new File("lib1/1.bmp"));
         Image destImage = new BufferedImage(720, 720, BufferedImage.TYPE_INT_RGB);
         Graphics g = destImage.getGraphics();
@@ -151,4 +162,12 @@ public class MainView extends JFrame {
 	// 	MainView mainView = new MainView();
 	// }
 
+    public void setState(state s){
+        this.stateofThisView = s;
+        westPanel.setState(this.stateofThisView);
+    }
+
+    public int getIndex(){
+        return RoundBox.getSelectedIndex();
+    }
 }

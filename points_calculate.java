@@ -10,7 +10,6 @@ public class points_calculate {
 
     public points_calculate(List<point> d, Stack<singleBlock> b) {
         desq = d;
-        // q = desq;
         for (int i = 0; i < desq.size(); i++) {
             try {
                 q.add((point) desq.get(i).clone());
@@ -18,11 +17,7 @@ public class points_calculate {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            // q.add(new point(new Float(desq.get(i).x), new Float(desq.get(i).y), new
-            // Integer(desq.get(i).al), new Integer(desq.get(i).ah), new
-            // Float(desq.get(i).el), new Float(desq.get(i).eh)));
         }
-        System.out.println(",,,,,,,,,,初始" + desq.size());
         blocks = b;
         states.push(new state(desq));
     }
@@ -33,8 +28,6 @@ public class points_calculate {
 
     boolean get_line_intersection(float p0_x, float p0_y, float p1_x, float p1_y, float p2_x, float p2_y, float p3_x,
             float p3_y) {
-        // System.out.println(p0_x + "," + p0_y + "," + p1_x + "," + p1_y + "," + p2_x +
-        // "," + p2_y + "," + p3_x + "," + p3_y);
 
         float s02_x, s02_y, s10_x, s10_y, s32_x, s32_y, s_numer, t_numer, denom, t;
         s10_x = p1_x - p0_x;
@@ -44,7 +37,6 @@ public class points_calculate {
 
         denom = s10_x * s32_y - s32_x * s10_y;
         if (denom == 0) {
-            // System.out.println("重合");
             return false;
         }
         boolean denomPositive = denom > 0;
@@ -53,20 +45,16 @@ public class points_calculate {
         s02_y = p0_y - p2_y;
         s_numer = s10_x * s02_y - s10_y * s02_x;
         if (s_numer == 0 || (s_numer < 0) == denomPositive) {
-            // System.out.println("不相交1");
             return false;
         }
 
         t_numer = s32_x * s02_y - s32_y * s02_x;
         if (t_numer == 0 || (t_numer < 0) == denomPositive) {
-            // System.out.println("不相交2");
             return false;
         }
         if (Math.abs(s_numer) >= Math.abs(denom) || Math.abs(t_numer) >= Math.abs(denom)) {
-            // System.out.println("不相交3");
             return false;
         }
-        // System.out.println("相交");
         return true;
     }
 
@@ -99,9 +87,6 @@ public class points_calculate {
             pd = q.get(i);
             pdn = q.get((i + 1) % sizeofDesti);
 
-            // System.out.println("index" + i + "x,y" + pd.x + "," + pd.y+ "x,y" + pdn.x +
-            // "," + pdn.y);
-
             for (int j = 0; j < sizeofBlock; j++) {
                 flag = flag && (!get_line_intersection(block.blockpoints.get(j).x, block.blockpoints.get(j).y,
                         block.blockpoints.get((j + 1) % sizeofBlock).x, block.blockpoints.get((j + 1) % sizeofBlock).y,
@@ -114,7 +99,6 @@ public class points_calculate {
                         (float) (pdn.y + 0.1
                                 * (float) Math.sin((0.5 * ((pdn.al < pdn.ah ? pdn.al : (pdn.al - 360)) + pdn.ah) + 180)
                                         * Math.PI / 180))));
-                // if(index == 2)System.out.println(j + "flag -" + flag);
 
                 flag = flag && (!get_line_intersection(block.blockpoints.get(j).x, block.blockpoints.get(j).y,
                         block.blockpoints.get((j + 2) % sizeofBlock).x, block.blockpoints.get((j + 2) % sizeofBlock).y,
@@ -128,26 +112,9 @@ public class points_calculate {
                                 * (float) Math.sin((0.5 * ((pdn.al < pdn.ah ? pdn.al : (pdn.al - 360)) + pdn.ah) + 180)
                                         * Math.PI / 180))));
 
-                // if(index == 2)System.out.println(j + "flag -" + flag);
             }
 
         }
-
-        // if(index == 2 && iobp <= 2){
-        // System.out.println("待匹配点有几个" + q.size());
-        // for (int jph = 0; jph < q.size(); jph++) {
-        // System.out.println( "x,y,al,ah,angle,el,eh = " + q.get(jph).x + "," +
-        // q.get(jph).y + "," + q.get(jph).al + "," + q.get(jph).ah + "," +
-        // q.get(jph).angle + "," + q.get(jph).el + "," + q.get(jph).eh);
-        // }
-        // System.out.println("待匹配板有几个点" + block.blockpoints.size());
-        // for (int jph = 0; jph < block.blockpoints.size(); jph++) {
-        // System.out.println( "x,y,al,ah,angle,el,eh = " + block.blockpoints.get(jph).x
-        // + "," + block.blockpoints.get(jph).y + "," + block.blockpoints.get(jph).al +
-        // "," + block.blockpoints.get(jph).ah + "," + block.blockpoints.get(jph).angle
-        // + "," + block.blockpoints.get(jph).el + "," + block.blockpoints.get(jph).eh);
-        // }
-        // }
 
         return flag;
     }
@@ -170,9 +137,6 @@ public class points_calculate {
 
         int lowangle = (highangle - thisblockangle + 360) % 360;
 
-        // System.out.println("板子的al, ah = "+ lowangle + "," + highangle);
-        // System.out.println("当前点x,y=" + desPoint.x + "," + desPoint.y + "; angle = " +
-        // desPoint.angle);
         boolean anglefit = (thisblockangle <= desPoint.angle)
                 && (highangle - thisblockangle >= ((desPoint.al < desPoint.ah) ? desPoint.al : desPoint.al - 360))
                 && (highangle <= desPoint.ah);
@@ -203,11 +167,7 @@ public class points_calculate {
 
             q.remove(desindex);
 
-            // align the low edge : block.al == point.al
-            // System.out.println("板子和目标的al = "+ lowangle + "," + desPoint.al);
-
             if ((lowangle == desPoint.al)) {
-                // System.out.println("align the angle point");
                 point ql = new point(lastPoint);
                 if (desPoint.el - thisblockpoint.el > 0.2f) {
                     ql.eh = desPoint.el - thisblockpoint.el;
@@ -217,18 +177,12 @@ public class points_calculate {
                             (desPoint.al + 180 - lastblockpoint.angle) % 360, desPoint.el - thisblockpoint.el,
                             lastblockpoint.el));
                 } else if ((desPoint.el - thisblockpoint.el) <= 0.2f && (desPoint.el - thisblockpoint.el) >= -0.2f) {
-                    // System.out.println("align the low edge");
-                    // ql.eh = lastblockpoint.el;
-                    // ql.setAngle(ql.al, ql.ah - lastblockpoint.angle);
-                    // q.add(q.size() - 1, new point(ql));
                     q.get(q.size() - 1).eh = lastblockpoint.el;
                     q.get(q.size() - 1).setAngle(ql.al, ql.ah - lastblockpoint.angle);
                 } else {
-                    // System.out.println("not align the low edge");
                     ql.eh = thisblockpoint.el - desPoint.el;
                     ql.setAngle(ql.al, (ql.ah + 180) % 360);
                     q.set(q.size() - 1, new point(ql));
-                    // System.out.println("add a point x,y =" + ql.x + "," + ql.y);
                     q.add(new point((float) (desPoint.x + thisblockpoint.el * Math.cos(lowangle * Math.PI / 180)),
                             (float) (desPoint.y + thisblockpoint.el * Math.sin(lowangle * Math.PI / 180)),
                             (desPoint.al + 180) % 360, (desPoint.al + 180 - lastblockpoint.angle) % 360,
@@ -237,11 +191,9 @@ public class points_calculate {
             }
 
             else {
-                // System.out.println("not align the low angle");
                 point ql = new point(desPoint);
                 ql.eh = thisblockpoint.el;
                 ql.setAngle(ql.al, ql.ah - thisblockangle);
-                // System.out.println("add a point x,y =" + ql.x + "," + ql.y);
                 q.add(new point(ql));
                 q.add(new point((float) (desPoint.x + thisblockpoint.el * Math.cos(lowangle * Math.PI / 180)),
                         (float) (desPoint.y + thisblockpoint.el * Math.sin(lowangle * Math.PI / 180)),
@@ -300,20 +252,11 @@ public class points_calculate {
             success = true;
         }
 
-        // System.out.println("还有几个点？" + q.size());
-        // for (int i = 0; i < q.size(); i++) {
-        // System.out.println( "x,y,al,ah,angle,el,eh = " + q.get(i).x + "," +
-        // q.get(i).y + "," + q.get(i).al + "," + q.get(i).ah + "," + q.get(i).angle +
-        // "," + q.get(i).el + "," + q.get(i).eh);
-        // }
         return success;
     }
 
     boolean pointsdeal() {
 
-        // boolean best = false;
-
-        System.out.println("点优化");
         if (q.size() < 3) {
             return true;
         }
@@ -324,22 +267,16 @@ public class points_calculate {
             float thiseh = q.get(i).eh;
 
             if (thisangle == 0) {
-                // best = true;
                 if (thisel < thiseh) {
                     
                     q.get((i + 1) % q.size()).el = thiseh - thisel;
                     q.get((i - 1 + q.size()) % q.size()).eh = thiseh - thisel;
                     q.get((i - 1 + q.size()) % q.size()).setAngle(q.get((i - 1 + q.size()) % q.size()).al, q.get(i).ah);
-                    // predp.setAngle(predp.al, (predp.ah + 180) % 360);
                 }
                 if (thisel > thiseh) {
-                    // predp.eh = thisp.el - thisp.eh;
                     q.get((i - 1 + q.size()) % q.size()).eh = thisel - thiseh;
                     q.get((i + 1) % q.size()).el = thisel - thiseh;
                     q.get((i + 1) % q.size()).setAngle(q.get(i).al, q.get((i + 1) % q.size()).ah);
-                    // q.set(i - 1, new point(predp));
-                    // succp.el = thisp.el - thisp.eh;
-                    // succp.setAngle((succp.al + 180) % 360, succp.ah);
                 }
                 q.remove(i);
 
@@ -353,7 +290,6 @@ public class points_calculate {
                 if (q.size() < 3)
                     return true;
             } else if (thisangle == 180) {
-                // best = true;
                 q.get((i - 1 + q.size()) % q.size()).eh = thiseh + thisel;
                 q.get((i + 1) % q.size()).el = thiseh + thisel;
                 q.remove(i);
@@ -362,8 +298,6 @@ public class points_calculate {
                     return true;
             }
         }
-
-        // if(!best)return pointsdeal();
         return false;
     }
 
@@ -371,24 +305,19 @@ public class points_calculate {
         boolean success = false;
         boolean flag;
         boolean last_success = false;
-        // state presentstate = new state();
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 3; j++) {
                 if (j > 0 && i == 3)
                     continue;
                 if (j == 2 && i == 4)
                     continue;
-                // presentstate = states.peek();
-                // System.out.println(i + "," + j + "等待搜索" + ",板子状态" +
-                // states.peek().stateBlock);
+                
                 if (((states.peek().stateBlock
-                        & (1 << i)) == 0) /* && (states.peek().statesingleblock_up.get(i) & (1 << j)) == 0 */) {
+                        & (1 << i)) == 0) ) {
 
                     flag = addblock7(i, j, q.get(q.size() - 1).ah, false);
-                    // System.out.println(i + "," + j + "+" + ",板子状态" + states.peek().stateBlock);
 
                     if (flag == false) {
-                        // state presentstate = new state(states.peek());
                         state presentstate;
 
                         try {
@@ -404,7 +333,6 @@ public class points_calculate {
                     }
 
                     else {
-                        // state presentstate = new state(states.peek());
                         state presentstate;
 
                         try {
@@ -413,59 +341,27 @@ public class points_calculate {
                             success = pointsdeal();
                             success = pointsdeal();
 
-                            presentstate.q = this.q;
-                            // for (int iph = 0; iph < states.size(); iph++) {
-                            // System.out.println("测试1插入第" + (iph + 1) + "个搜索状态" + ",点数" +
-                            // states.get(iph).q.size());
-                            // }
+                            presentstate.q = this.q;             
                             presentstate.stateBlock |= (1 << i);
-                            // System.out.println("板的编码状态前" + presentstate.stateBlock);
                             presentstate.blocks = this.blocks;
-                            // for (int iph = 0; iph < states.size(); iph++) {
-                            // System.out.println("测试2插入第" + (iph + 1) + "个搜索状态" + ",点数" +
-                            // states.get(iph).q.size());
-                            // }
+                            
                             states.push(new state(presentstate));
 
                         } catch (CloneNotSupportedException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        System.out.println("第" + i + "板" + j + "顶点" + "正面匹配"+ ",板子状态" + states.peek().stateBlock);
-
-                        // for (int iph = 0; iph < states.size(); iph++) {
-                        // System.out.println("测试0插入第" + (iph + 1) + "个搜索状态" + ",点数" +
-                        // states.get(iph).q.size());
-                        // System.out.println(",初始" + desq.size());
-                        // }
-                        // for (int iph = 0; iph < states.size(); iph++) {
-                        //     System.out.println("插入第" + (iph + 1) + "个搜索状态" + ",点数" + states.get(iph).q.size());
-                        //     System.out.println("我就问问你还有几个点？" + states.get(iph).q.size());
-                        //     for (int jph = 0; jph < states.get(iph).q.size(); jph++) {
-                        //         System.out.println("x,y,al,ah,angle,el,eh = " + states.get(iph).q.get(jph).x + ","
-                        //                 + states.get(iph).q.get(jph).y + "," + states.get(iph).q.get(jph).al + ","
-                        //                 + states.get(iph).q.get(jph).ah + "," + states.get(iph).q.get(jph).angle + ","
-                        //                 + states.get(iph).q.get(jph).el + "," + states.get(iph).q.get(jph).eh);
-                        //     }
-                        // }
 
                         if (success) {
-                            System.out.println("finish a search");
                             return true;
                         }
 
                         last_success = search();
-                        if (!last_success)
-                            System.out.println("这条路死了");
+                        
                         if (last_success == false) {
                             blocks.pop();
                             states.pop();
-                            // System.out.println("pop1第" + (1 + states.size()) + "个搜索状态");
-                            // states.pop();
-                            // System.out.println("pop2第" + (1 + states.size()) + "个搜索状态");
-                            // presentstate = states.peek();
                             
-                                //presentstate = (state) states.peek().clone();
                             List<point> present = new ArrayList<point>();
                             for (int isp = 0; isp < states.peek().q.size(); isp++) {
                                 try {
@@ -474,23 +370,14 @@ public class points_calculate {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-                                // q.add(new point(new Float(desq.get(i).x), new Float(desq.get(i).y), new
-                                // Integer(desq.get(i).al), new Integer(desq.get(i).ah), new
-                                // Float(desq.get(i).el), new Float(desq.get(i).eh)));
+                                
                             }
 
                             this.q = new ArrayList<point>(present);
                             
                             states.peek().stateBlock &= ~(1 << i);
-                            // states.peek().statesingleblock_up_ban(i, j);
-
-                            // states.push(new state(presentstate));
-                            // System.out.println("pupush第" + states.size() + "个搜索状态");
-                            // System.out.println("这个状态是" + states.peek().blocks.size() + "个板");
-                            // System.out.println("这个状态是" + states.peek().q.size() + "还是" +
-                            // presentstate.q.size() + "个点");
+                            
                         } else {
-                            System.out.println("finish a search");
                             return true;
                         }
                     }
@@ -501,12 +388,8 @@ public class points_calculate {
                     continue;
 
                 if (((states.peek().stateBlock
-                        & (1 << i)) == 0) /* && (states.peek().statesingleblock_down.get(i) & (1 << j)) == 0 */) {
-                    // System.out.println(i + "," + j + "-");
-                    // for (int iph = 0; iph < states.size(); iph++) {
-                    // System.out.println("本次开搜插入第" + (iph + 1) + "个搜索状态" + ",点数" +
-                    // states.get(iph).q.size());
-                    // }
+                        & (1 << i)) == 0) ) {
+                    
                     flag = addblock7(i, j, q.get(q.size() - 1).ah, true);
 
                     if (flag == false) {
@@ -536,9 +419,7 @@ public class points_calculate {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        // blocks.push(new singleBlock(7, i, true));
-                        System.out.println("第" + i + "板" + j + "顶点" + "反面匹配"+ ",板子状态" + states.peek().stateBlock);
-
+                        
                         success = pointsdeal();
 
                         if(success)return true;
@@ -546,12 +427,9 @@ public class points_calculate {
                         if(last_success == false){
                             blocks.pop();
                             states.pop();
-                            // presentstate = states.peek();
-                            // q = presentstate.q;
-                            states.peek().stateBlock &= ~(1 << i);
-                            // this.q = new ArrayList<point>(presentstate.q) ;
                             
-                                //presentstate = (state) states.peek().clone();
+                            states.peek().stateBlock &= ~(1 << i);
+                            
 
                                 List<point> present = new ArrayList<point>();
                                 for (int isp = 0; isp < states.peek().q.size(); isp++) {
@@ -561,18 +439,11 @@ public class points_calculate {
                                         // TODO Auto-generated catch block
                                         e.printStackTrace();
                                     }
-                                    // q.add(new point(new Float(desq.get(i).x), new Float(desq.get(i).y), new
-                                    // Integer(desq.get(i).al), new Integer(desq.get(i).ah), new
-                                    // Float(desq.get(i).el), new Float(desq.get(i).eh)));
+                                    
                                 }
 
                                 this.q = new ArrayList<point>(present);
-                                // this.q = new ArrayList<point>();
 
-                           
-                            // states.peek().statesingleblock_up_ban(i, j);
-                            // states.pop();
-                            // states.push(new state(presentstate));
                         }
                         else return true;
                     }
