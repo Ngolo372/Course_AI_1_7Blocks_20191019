@@ -17,6 +17,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -45,12 +46,16 @@ public class main_prj {
 			}
 		}, 100, 500);
 
+		Timer timer2 = new Timer();
+
 		mainView.AutoStartBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				// TODO Auto-generated method stub
 				mainView.AutoStartBtn.setEnabled(false);
+
+				boolean continuous = mainView.AutoTimeCombo.getSelectedIndex() == 0 ? false : true;
 
 				List<point> points = des.get(mainView.getIndex()).q;
 
@@ -60,30 +65,24 @@ public class main_prj {
 
 				mainView.setState(mainstate);
 
-				JOptionPane.showMessageDialog(null, "Image No." + mainView.getIndex(), null,JOptionPane.PLAIN_MESSAGE);
+				Object[] options ={ "是", "否" };
+				int permission = JOptionPane.showOptionDialog(null, "图片编号 No." + (mainView.getIndex() + 1), 
+				null,JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 				mainView.westPanel.revalidate();
 
-				try {
-					Thread.sleep(1500);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				if(permission == 0)
+				{	points_calculate points_calculate_7 = new points_calculate(points, Blocks);
 
-				// mainView.AutoStartBtn.setEnabled(true);
-				points_calculate points_calculate_7 = new points_calculate(points, Blocks);
+					boolean success_flag = points_calculate_7.search(continuous);
 
-				boolean success_flag = points_calculate_7.search();
-
-				JOptionPane.showMessageDialog(null, (success_flag == true ? "Success!" : "No solution"), null,JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, (success_flag == true ? "成功拼接!" : "拼不出来"), null,JOptionPane.PLAIN_MESSAGE);}
 
 				mainView.AutoStartBtn.setEnabled(true);
 
 			}
         });
 			
-		
 		mainView.setSize(1024, 768);
 		mainView.setResizable(false);
 		mainView.setLocationRelativeTo(null); 

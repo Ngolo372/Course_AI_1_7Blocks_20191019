@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,7 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.border.Border;
 import javax.imageio.ImageIO;
 
 public class MainView extends JFrame {
@@ -26,9 +27,9 @@ public class MainView extends JFrame {
 
     JButton AutoStartBtn;
 
-    JButton selectBtn;
-
     JComboBox RoundBox;
+
+    JComboBox AutoTimeCombo;
 
     MyPanel westPanel;
     
@@ -52,9 +53,9 @@ public class MainView extends JFrame {
 		panelType.add(TypeLabel);
 		panelType.add(TypeComboBox);
 
-		// round
+ 		// choose   round
 		JPanel panelRound = new JPanel();
-		panelRound.setLayout(new GridLayout(1, 3));
+		panelRound.setLayout(new GridLayout(1, 2));
 		JLabel RoundLabel = new JLabel("选择关卡：");;
         RoundBox = new JComboBox();
         RoundBox.addItem("1");RoundBox.addItem("2");RoundBox.addItem("3");RoundBox.addItem("4");RoundBox.addItem("5");
@@ -63,33 +64,33 @@ public class MainView extends JFrame {
         RoundBox.addItem("16");RoundBox.addItem("17");RoundBox.addItem("18");RoundBox.addItem("19");RoundBox.addItem("20");
         RoundBox.addItem("21");RoundBox.addItem("22");RoundBox.addItem("23");RoundBox.addItem("24");RoundBox.addItem("25");
         RoundBox.addItem("26");
-        selectBtn = new JButton("选定");
 		panelRound.add(RoundLabel);
         panelRound.add(RoundBox);
-        // panelRound.add(selectBtn);
+        panelRound.setBorder(BorderFactory.createEmptyBorder(20, 5, 20, 5));
 
-		// choose type and round
-		JPanel panelbasicselect = new JPanel();
-		panelbasicselect.setLayout(new BoxLayout(panelbasicselect, BoxLayout.Y_AXIS));
-		panelbasicselect.add(panelType);
-		panelbasicselect.add(panelRound);
+        //扩展接口：扩展14+巧板用
+		// JPanel panelbasicselect = new JPanel();
+		// panelbasicselect.setLayout(new BoxLayout(panelbasicselect, BoxLayout.Y_AXIS));
+		// panelbasicselect.add(panelType); 
+		// panelbasicselect.add(panelRound);
 
 		// auto
 		JPanel panelAuto = new JPanel();
 		panelAuto.setLayout(new BoxLayout(panelAuto, BoxLayout.Y_AXIS));
         AutoStartBtn = new JButton("开始");
         // AutoStartBtn.setEnabled(false);
-        JLabel AutoTimeLabel = new JLabel("选择步长");
-        JComboBox AutoTimeCombo = new JComboBox();
-        AutoTimeCombo.addItem("1");
-        AutoTimeCombo.addItem("2");
+        JLabel AutoTimeLabel = new JLabel("选择模式");
+        AutoTimeCombo = new JComboBox();
+        AutoTimeCombo.addItem("步进");
+        AutoTimeCombo.addItem("直接成图");
         JPanel panelAutoTime = new JPanel();
         panelAutoTime.setLayout(new GridLayout(1, 2));
         panelAutoTime.add(AutoTimeLabel);
         panelAutoTime.add(AutoTimeCombo);
+        panelAutoTime.setBorder(BorderFactory.createEmptyBorder(20, 5, 20, 5));
         panelAuto.add(panelAutoTime);
-        panelAuto.add(AutoStartBtn);
-        panelAuto.setBorder(BorderFactory.createTitledBorder("自动模式"));
+        panelAuto.add(AutoStartBtn);       
+        panelAuto.setBorder(BorderFactory.createTitledBorder("自动模式"));        
 
         // manual
         JPanel panelManual = new JPanel();
@@ -118,8 +119,8 @@ public class MainView extends JFrame {
 
         // panel north
         JPanel northPanel = new JPanel();
-        northPanel.setLayout(new GridLayout(3, 1));
-        northPanel.add(panelbasicselect);
+        northPanel.setLayout(new BoxLayout(northPanel, 1));
+        northPanel.add(panelRound);
         northPanel.add(panelmodeSelect);
 
         //panel south

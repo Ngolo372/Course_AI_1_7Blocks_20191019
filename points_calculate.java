@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 public class points_calculate {
 
     Stack<singleBlock> blocks;
@@ -7,6 +9,8 @@ public class points_calculate {
     List<point> q = new ArrayList<point>();
 
     Stack<state> states = new Stack<state>();
+
+    boolean ifc;
 
     public points_calculate(List<point> d, Stack<singleBlock> b) {
         desq = d;
@@ -301,7 +305,8 @@ public class points_calculate {
         return false;
     }
 
-    boolean search() {
+    boolean search(Boolean c) {
+        this.ifc = c;
         boolean success = false;
         boolean flag;
         boolean last_success = false;
@@ -332,6 +337,7 @@ public class points_calculate {
 
                     }
 
+                    //match success: i^th block ,j^th point
                     else {
                         state presentstate;
 
@@ -352,11 +358,16 @@ public class points_calculate {
                             e.printStackTrace();
                         }
 
-                        if (success) {
-                            return true;
-                        }
+                        if(this.ifc == false){
+                                Object[] options ={ "确认", "退出步进" };
+                                int quit = JOptionPane.showOptionDialog(null, "匹配第" + i + "块板", null,JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                                if(quit == 1)this.ifc = true;
+                        }  
 
-                        last_success = search();
+                        if (success) return true;
+                        
+                        last_success = search(this.ifc);
                         
                         if (last_success == false) {
                             blocks.pop();
@@ -371,6 +382,13 @@ public class points_calculate {
                                     e.printStackTrace();
                                 }
                                 
+                            }
+
+                            if(this.ifc == false){
+                                Object[] options ={ "确认", "退出步进" };
+                                int quit = JOptionPane.showOptionDialog(null, "第" + i + "块板拼不下去", null,JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                                if(quit == 1)this.ifc = true;
                             }
 
                             this.q = new ArrayList<point>(present);
@@ -421,9 +439,17 @@ public class points_calculate {
                         }
                         
                         success = pointsdeal();
+                      
+                        if(this.ifc == false){
+                                Object[] options ={ "确认", "退出步进" };
+                                int quit = JOptionPane.showOptionDialog(null, "匹配第" + i + "块板", null,JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                                if(quit == 1)this.ifc = true;
+                        }
 
                         if(success)return true;
-                        last_success = search();
+
+                        last_success = search(this.ifc);
                         if(last_success == false){
                             blocks.pop();
                             states.pop();
@@ -442,6 +468,12 @@ public class points_calculate {
                                     
                                 }
 
+                            if(this.ifc == false){
+                                Object[] options ={ "确认", "退出步进" };
+                                int quit = JOptionPane.showOptionDialog(null, "第" + i + "块板拼不下去", null,JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                                if(quit == 1)c = true;
+                            }
                                 this.q = new ArrayList<point>(present);
 
                         }
